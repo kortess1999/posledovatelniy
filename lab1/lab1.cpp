@@ -25,14 +25,15 @@ int main()
 {
     ofstream fout;
     ifstream fin;
-    string inputFile, outputFile, data;
+    string inputFile, outputFile;
+    int data;
     int arraySize, stepCount = 0;
     double summa = 0;
     unsigned int startTime, endTime, fileLen;
 
     cout << "Input fileName\n";
     cin >> inputFile;
-    fin.open(inputFile);
+    fin.open(inputFile, ios::in | ios::binary);
     fileLen = fileSize(inputFile);
 
     cout << "Output fileName\n";
@@ -45,9 +46,10 @@ int main()
 
     startTime = clock();
 
-    while(getline(fin, data, ' '))
+    while(!fin.eof())
     {
-        summa += stoi(data);
+        fin.read((char*)&data, sizeof(int));
+        summa += data;
         stepCount++;
         fout << data << " ";
         if (stepCount == arraySize){
